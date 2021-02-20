@@ -24,14 +24,14 @@ fun main() = Window {
                 Modifier.padding(16.dp).background(Color.White).fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Ебучий менеджер закладок", style = MaterialTheme.typography.h5)
+                Text("Менеджер закладок", style = MaterialTheme.typography.h5)
             }
             Row {
                 Column(modifier = Modifier.padding(4.dp)) {
                     getMenuItem("Projects")
                     getMenuItem("Человечье")
-                    getMenuItem("Херня")
-                    getMenuItem("Херня")
+                    getMenuItem("SomeItem")
+                    getMenuItem("SomeItem")
 
                 }
                 ScrollableColumn(Modifier.fillMaxWidth().padding(end = 20.dp)) {
@@ -49,9 +49,9 @@ fun main() = Window {
 
 @Composable
 private fun getMenuItem(name: String) {
-    Row (modifier = Modifier.padding(top = 4.dp)){
+    Row(modifier = Modifier.padding(top = 4.dp)) {
         Image(
-            imageResource("palceholder.jpg"),
+            imageResource("placeholder.jpg"),
             Modifier.preferredHeight(50.dp).preferredWidth(50.dp).align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(10.dp)),
             contentScale = ContentScale.FillBounds
@@ -64,12 +64,17 @@ private fun getMenuItem(name: String) {
 
 @Composable
 fun Unit(i: Int) {
-    Card (elevation = 4.dp, modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp), border = BorderStroke(1.dp, Color.DarkGray)) {
-        Row (modifier = Modifier.preferredHeight(80.dp)){
+    Card(
+        elevation = 4.dp,
+        modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp),
+        border = BorderStroke(1.dp, Color.DarkGray)
+    ) {
+        Row(modifier = Modifier.preferredHeight(80.dp)) {
 
             Image(
-                imageResource("palceholder.jpg"),
-                Modifier.preferredHeight(50.dp).preferredWidth(50.dp).align(Alignment.CenterVertically).clip(RoundedCornerShape(10.dp)),
+                imageResource("placeholder.jpg"),
+                Modifier.preferredHeight(50.dp).preferredWidth(50.dp).align(Alignment.CenterVertically)
+                    .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.FillBounds
             )
             Column(Modifier.padding(start = 15.dp)) {
