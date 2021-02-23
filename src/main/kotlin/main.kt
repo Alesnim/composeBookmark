@@ -1,11 +1,15 @@
 import androidx.compose.desktop.Window
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -13,10 +17,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
+import java.io.File
+import javax.swing.JFileChooser
+import javax.swing.JFrame
+import javax.swing.SwingUtilities
+
+
+var selectedFile: File? = null
 
 fun main() = Window {
-    var text by remember { mutableStateOf("Hello, World!") }
-    var bookmark = listOf(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+    val bookmark = listOf(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12)
     MaterialTheme {
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -32,7 +42,9 @@ fun main() = Window {
                     getMenuItem("Человечье")
                     getMenuItem("SomeItem")
                     getMenuItem("SomeItem")
-
+                    Button(onClick = { getFileProvider() }) {
+                        Text("FILE!!!!")
+                    }
                 }
                 ScrollableColumn(Modifier.fillMaxWidth().padding(end = 20.dp)) {
                     for (i in bookmark) {
@@ -43,6 +55,15 @@ fun main() = Window {
 
         }
 
+    }
+}
+
+fun getFileProvider() {
+    SwingUtilities.invokeLater {
+        val root = JFrame()
+        val window = JFileChooser()
+        window.showOpenDialog(root)
+        selectedFile = window.selectedFile
     }
 }
 
