@@ -1,9 +1,9 @@
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -17,16 +17,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 import java.io.File
 import javax.swing.JFileChooser
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
 
-var selectedFile: File? = null
+var selectFile: File = File("")
 
+var li: Elements? = null
 fun main() = Window {
-    val bookmark = listOf(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12)
     MaterialTheme {
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -46,30 +48,43 @@ fun main() = Window {
                         Text("FILE!!!!")
                     }
                 }
-                ScrollableColumn(Modifier.fillMaxWidth().padding(end = 20.dp)) {
-                    for (i in bookmark) {
-                        Unit(i)
+
+                LazyColumn(Modifier.fillMaxWidth().padding(end = 20.dp)) {
+                    li?.let {
+                        items(items = it.toList()) { item ->
+
+                            getBookmarkUnit(item.toString())
+                        }
                     }
+
+
                 }
+
             }
 
         }
-
     }
 }
 
 fun getFileProvider() {
+
     SwingUtilities.invokeLater {
         val root = JFrame()
         val window = JFileChooser()
+        var bookmarks = ""
         window.showOpenDialog(root)
-        selectedFile = window.selectedFile
+        selectFile = window.selectedFile
+        selectFile.bufferedReader().use {
+            bookmarks = it.readText()
+            val doc = Jsoup.parse(bookmarks)
+            li = doc.body().getElementsByTag("li")
+        }
     }
 }
 
 
 @Composable
-private fun getMenuItem(name: String) {
+fun getMenuItem(name: String) {
     Row(modifier = Modifier.padding(top = 4.dp)) {
         Image(
             imageResource("placeholder.jpg"),
@@ -79,12 +94,13 @@ private fun getMenuItem(name: String) {
         )
         Spacer(modifier = Modifier.preferredWidth(12.dp))
         Text(name)
+
     }
 }
 
 
 @Composable
-fun Unit(i: Int) {
+fun getBookmarkUnit(title: String) {
     Card(
         elevation = 4.dp,
         modifier = Modifier.fillMaxWidth().padding(bottom = 5.dp),
@@ -99,8 +115,8 @@ fun Unit(i: Int) {
                 contentScale = ContentScale.FillBounds
             )
             Column(Modifier.padding(start = 15.dp)) {
-                Text("Заголовок страницы", style = MaterialTheme.typography.h5)
-                Text("$i", style = MaterialTheme.typography.body1)
+                Text("$title", style = MaterialTheme.typography.h5)
+                Text("$title", style = MaterialTheme.typography.body1)
             }
         }
 

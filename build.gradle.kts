@@ -21,6 +21,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
     implementation(compose.desktop.currentOs)
+    implementation("org.jsoup:jsoup:1.13.1")
+    implementation("com.beust:klaxon:5.0.1")
+
 }
 
 tasks.test {
